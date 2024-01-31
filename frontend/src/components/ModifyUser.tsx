@@ -12,6 +12,7 @@ import UserPaysheetList from "./UserPaysheetList";
 import Sidebar from "./Sidebar";
 import { PaysheetSchema } from "../schemas/paysheetSchema";
 import RoleContext from "../contexts/AdminUser";
+import { HiOutlineChevronLeft } from "react-icons/hi";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ function ModifyUser() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAddingPaysheet, setIsAddingPaysheet] = useState(false);
   const [userIndexToDelet, setUserIndexToDelet] = useState(0);
-  const roleContext = useContext(RoleContext);
+  const { isUserAdmin, setIsUserAdmin } = useContext(RoleContext);
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -75,35 +76,46 @@ function ModifyUser() {
   }, [paysheets]);
 
   useEffect(() => {
-    if (roleContext!.isUserAdmin) {
-      api
-        .get("user/" + id)
-        .then((res) => {
-          setUser({
-            name: res.data.name,
-            lastName: res.data.lastName,
-            username: res.data.username,
-            password: "********",
-            role: res.data.role,
-          });
-          res.data.role == "ADMIN" ? setIsAdmin(true) : setIsAdmin(false);
-        })
-        .catch((err) => console.log("Error while getting user: " + err));
-      api
-        .get("paysheet/" + id)
-        .then((res) => {
-          setPaysheets(res.data);
-        })
-        .catch((err) =>
-          console.log("Error while getting user's paysheets: " + err)
-        );
-    } else navigate("/error");
+    api
+      .get("user/role/" + localStorage.getItem("userId"))
+      .then((res) => {
+        if (res.data == "ADMIN") {
+          setIsUserAdmin(true);
+          api
+            .get("user/" + id)
+            .then((res) => {
+              setUser({
+                name: res.data.name,
+                lastName: res.data.lastName,
+                username: res.data.username,
+                password: "********",
+                role: res.data.role,
+              });
+              res.data.role == "ADMIN" ? setIsAdmin(true) : setIsAdmin(false);
+            })
+            .catch((err) => console.log("Error while getting user: " + err));
+          api
+            .get("paysheet/" + id)
+            .then((res) => {
+              setPaysheets(res.data);
+            })
+            .catch((err) =>
+              console.log("Error while getting user's paysheets: " + err)
+            );
+        } else navigate("/error");
+      })
+      .catch((err) => {
+        console.log(err);
+        localStorage.clear();
+        navigate("/login");
+      });
   }, []);
 
   return (
     <>
       <StyledHeader>
         <div className="image">
+          <HiOutlineChevronLeft onClick={() => navigate("/alluser")} />
           <img
             src="..//paysheet.svg"
             alt="logo"

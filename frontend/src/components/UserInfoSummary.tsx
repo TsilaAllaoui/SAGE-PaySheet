@@ -231,7 +231,9 @@ function UserInfoSummary({
     };
     api
       .patch("user", data)
-      .then(() => {})
+      .then(() => {
+        console.log("User updated...");
+      })
       .catch((err) => {
         console.log(err);
       })

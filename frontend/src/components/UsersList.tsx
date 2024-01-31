@@ -1,4 +1,4 @@
-import { FiDelete } from "react-icons/fi";
+import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { User } from "../types";
@@ -173,7 +173,7 @@ function UsersList({
             <td>{user.username}</td>
             <td>{user.role}</td>
             <td>
-              <FiDelete onClick={(e) => setConfirmDelete(i, e)} />
+              <HiOutlineTrash onClick={(e) => setConfirmDelete(i, e)} />
             </td>
           </tr>
         ))}

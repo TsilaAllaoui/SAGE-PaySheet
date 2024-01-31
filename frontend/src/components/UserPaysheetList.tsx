@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-import { FiDelete, FiFolderPlus } from "react-icons/fi";
+import { FiFolderPlus } from "react-icons/fi";
+import { HiOutlineTrash } from "react-icons/hi";
 import styled from "styled-components";
 import { Paysheet } from "../types";
 import EditUserPaysheet from "./EditUserPaysheet";
@@ -218,7 +219,7 @@ function UserPaysheetList({
           }
         }}
       >
-        <FiDelete />
+        <HiOutlineTrash />
       </div>
     ) : null;
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { api } from "../api";
 import RoleContext from "../contexts/AdminUser";
+import { CgSpinner } from "react-icons/cg";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -127,6 +128,12 @@ const LoginFormContainer = styled.form`
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+
+    .spinner {
+      font-size: 25px;
+      animation: rotate linear infinite 750ms;
+    }
+
     @media (width <=480px) {
       font-size: small;
     }
@@ -181,11 +188,13 @@ export const Login = () => {
   const setIsUserAdmin = useContext(RoleContext).setIsUserAdmin;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isPending, setIsPending] = useState(false);
   const errorRef = useRef<HTMLParagraphElement>(null);
 
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
+    setIsPending(true);
     e.preventDefault();
     api
       .post("auth/login", {
@@ -201,8 +210,10 @@ export const Login = () => {
         res.data.user.role == "ADMIN"
           ? navigate("/alluser")
           : navigate("/paysheets");
+        setIsPending(false);
       })
       .catch((err) => {
+        setIsPending(false);
         console.log("Error when authenticating");
         console.log(err);
         errorRef.current?.classList.add("show");
@@ -234,7 +245,9 @@ export const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Connexion</button>
+        <button type="submit">
+          {isPending ? <CgSpinner className="spinner" /> : "Connexion"}
+        </button>
         <p className="error" ref={errorRef}>
           Identifiant ou mot de passe invalide
         </p>

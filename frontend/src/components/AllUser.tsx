@@ -51,13 +51,18 @@ export const StyledHeader = styled.h2<{ $scrolled?: boolean }>`
     width: 30%;
     display: flex;
     justify-content: flex-start;
+    align-items: center;
+
+    svg {
+      font-size: x-large;
+    }
 
     img {
       margin-left: 50px;
-      width: 50px;
+      width: 40px;
 
       @media (width <= 480px) {
-        width: 35px;
+        width: 30px;
         margin: 0;
       }
 
