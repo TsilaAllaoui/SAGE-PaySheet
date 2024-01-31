@@ -145,7 +145,7 @@ function Sidebar({
       .catch((err) => {
         console.log(err);
         localStorage.clear();
-        navigate("login");
+        navigate("/login");
       });
   }, [window.location]);
 

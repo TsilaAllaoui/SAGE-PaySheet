@@ -240,7 +240,7 @@ export const Login = () => {
         <p className="error" ref={errorRef}>
           Identifiant ou mot de passe invalide
         </p>
-        <a className="signup" href={location.href + "signup"}>
+        <a className="signup" href={location.hostname + "/signup"}>
           Créer compte
         </a>
       </LoginFormContainer>
