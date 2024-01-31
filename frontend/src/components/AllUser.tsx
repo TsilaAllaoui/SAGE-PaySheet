@@ -177,7 +177,6 @@ function Alluser() {
   }, []);
 
   useEffect(() => {
-    console.log("Sort: " + sort);
     if (sort != "") {
       if (sort == "A-Z") {
         setFilteredUsers([

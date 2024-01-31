@@ -270,14 +270,16 @@ function UserPaysheetList({
         <div className="empty-box">
           <div>
             <p>Vide</p>
-            <FiFolderPlus
-              className="add-paysheet"
-              onClick={() => {
-                if (setIsAddingPaysheet) {
-                  setIsAddingPaysheet(true);
-                }
-              }}
-            />
+            {isUserAdmin ? (
+              <FiFolderPlus
+                className="add-paysheet"
+                onClick={() => {
+                  if (setIsAddingPaysheet) {
+                    setIsAddingPaysheet(true);
+                  }
+                }}
+              />
+            ) : null}
           </div>
         </div>
       )}
