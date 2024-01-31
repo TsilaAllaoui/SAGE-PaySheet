@@ -48,7 +48,7 @@ function Paysheets() {
       <StyledHeader>
         <div className="image">
           <img
-            src="../../public/paysheet.svg"
+            src="..//paysheet.svg"
             alt=""
             onClick={() => setToggleButtons((toggleButtons) => !toggleButtons)}
           />

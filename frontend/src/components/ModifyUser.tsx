@@ -100,7 +100,7 @@ function ModifyUser() {
       <StyledHeader>
         <div className="image">
           <img
-            src="../../public/paysheet.svg"
+            src="..//paysheet.svg"
             alt="logo"
             onClick={() => setToggleButtons((toggleButtons) => !toggleButtons)}
           />

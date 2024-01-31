@@ -219,7 +219,7 @@ export const Login = () => {
     <LoginContainer>
       <LoginFormContainer onSubmit={handleSubmit}>
         <div className="header">
-          <img src="../public/paysheet.svg" alt="logo" />
+          <img src="/paysheet.svg" alt="logo" />
           <h2>PaySheet</h2>
         </div>
         <label htmlFor="username">Identifiant</label>

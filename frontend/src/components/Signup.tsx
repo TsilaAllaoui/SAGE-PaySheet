@@ -265,7 +265,7 @@ export const Signup = () => {
     <SignupContainer>
       <SignupFormContainer onSubmit={handleSubmit}>
         <div className="header">
-          <img src="../public/paysheet.svg" alt="logo" />
+          <img src="/paysheet.svg" alt="logo" />
           <h2>Souscription</h2>
         </div>
         <label htmlFor="name">Nom</label>
