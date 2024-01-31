@@ -288,9 +288,9 @@ export const Signup = () => {
         <input
           type="text"
           id="username"
-          value={formData.username.toLowerCase()}
+          value={formData.username}
           onChange={(e) =>
-            setFormData({ ...formData, username: e.target.value.toLowerCase() })
+            setFormData({ ...formData, username: e.target.value })
           }
         />
         <label htmlFor="password">Mot de passe</label>

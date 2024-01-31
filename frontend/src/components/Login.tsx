@@ -225,8 +225,7 @@ export const Login = () => {
         <input
           type="text"
           id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value.toLowerCase())}
         />
         <label htmlFor="password">Mot de passe:</label>
         <input
