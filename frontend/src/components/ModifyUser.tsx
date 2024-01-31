@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from "react";
+import { HiOutlineChevronLeft } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { api } from "../api";
+import RoleContext from "../contexts/AdminUser";
+import { PaysheetSchema } from "../schemas/paysheetSchema";
 import "../styles/keyframes.css";
 import { Paysheet } from "../types";
 import AddingPaysheet from "./AddingPaysheet";
 import { StyledHeader } from "./AllUser";
 import ConfirmPopUp from "./ConfirmPopUp";
+import Sidebar from "./Sidebar";
 import UserInfoSummary from "./UserInfoSummary";
 import UserPaysheetList from "./UserPaysheetList";
-import Sidebar from "./Sidebar";
-import { PaysheetSchema } from "../schemas/paysheetSchema";
-import RoleContext from "../contexts/AdminUser";
-import { HiOutlineChevronLeft } from "react-icons/hi";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ function ModifyUser() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAddingPaysheet, setIsAddingPaysheet] = useState(false);
   const [userIndexToDelet, setUserIndexToDelet] = useState(0);
-  const { isUserAdmin, setIsUserAdmin } = useContext(RoleContext);
+  const setIsUserAdmin = useContext(RoleContext).setIsUserAdmin;
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
