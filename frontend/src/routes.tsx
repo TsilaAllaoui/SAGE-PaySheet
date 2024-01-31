@@ -4,7 +4,7 @@ import { Login } from "./components/Login";
 import ModifyUser from "./components/ModifyUser";
 import Paysheets from "./components/Paysheets";
 import { Signup } from "./components/Signup";
-import Test from "./components/Test";
+import ErrorPage from "./components/ErrorPage";
 
 export const routes = createBrowserRouter([
   {
@@ -36,7 +36,7 @@ export const routes = createBrowserRouter([
     element: <ModifyUser />,
   },
   {
-    path: "test",
-    element: <Test />,
+    path: "error",
+    element: <ErrorPage />,
   },
 ]);

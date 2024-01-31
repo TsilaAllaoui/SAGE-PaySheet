@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { api } from "../api";
 import { User } from "../types";
@@ -6,6 +6,8 @@ import ConfirmPopUp from "./ConfirmPopUp";
 import Sidebar from "./Sidebar";
 import UsersList from "./UsersList";
 import { UserSchema } from "../schemas/userSchema";
+import RoleContext from "../contexts/AdminUser";
+import { useNavigate } from "react-router-dom";
 
 export const StyledHeader = styled.h2<{ $scrolled?: boolean }>`
   margin: 0;
@@ -143,6 +145,8 @@ function Alluser() {
   const [userIndexToDelet, setUserIndexToDelet] = useState(0);
   const [sort, setSort] = useState("A-Z");
   const [toggleButtons, setToggleButtons] = useState(false);
+  const roleContext = useContext(RoleContext);
+  const navigate = useNavigate();
 
   const deleteUser = (i: number) => {
     api
@@ -161,11 +165,15 @@ function Alluser() {
   };
 
   useEffect(() => {
-    api.get("user").then((res) => {
-      const tmp: User[] = res.data;
-      setUsers([...tmp.sort((a, b) => a.name.localeCompare(b.name))]);
-      setFilteredUsers([...tmp.sort((a, b) => a.name.localeCompare(b.name))]);
-    });
+    roleContext!.isUserAdmin
+      ? api.get("user").then((res) => {
+          const tmp: User[] = res.data;
+          setUsers([...tmp.sort((a, b) => a.name.localeCompare(b.name))]);
+          setFilteredUsers([
+            ...tmp.sort((a, b) => a.name.localeCompare(b.name)),
+          ]);
+        })
+      : navigate("/error");
   }, []);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { api } from "../api";
 import "../styles/keyframes.css";
@@ -11,6 +11,7 @@ import UserInfoSummary from "./UserInfoSummary";
 import UserPaysheetList from "./UserPaysheetList";
 import Sidebar from "./Sidebar";
 import { PaysheetSchema } from "../schemas/paysheetSchema";
+import RoleContext from "../contexts/AdminUser";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -24,6 +25,8 @@ function ModifyUser() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAddingPaysheet, setIsAddingPaysheet] = useState(false);
   const [userIndexToDelet, setUserIndexToDelet] = useState(0);
+  const roleContext = useContext(RoleContext);
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     name: "",
@@ -72,27 +75,29 @@ function ModifyUser() {
   }, [paysheets]);
 
   useEffect(() => {
-    api
-      .get("user/" + id)
-      .then((res) => {
-        setUser({
-          name: res.data.name,
-          lastName: res.data.lastName,
-          username: res.data.username,
-          password: "********",
-          role: res.data.role,
-        });
-        res.data.role == "ADMIN" ? setIsAdmin(true) : setIsAdmin(false);
-      })
-      .catch((err) => console.log("Error while getting user: " + err));
-    api
-      .get("paysheet/" + id)
-      .then((res) => {
-        setPaysheets(res.data);
-      })
-      .catch((err) =>
-        console.log("Error while getting user's paysheets: " + err)
-      );
+    if (roleContext!.isUserAdmin) {
+      api
+        .get("user/" + id)
+        .then((res) => {
+          setUser({
+            name: res.data.name,
+            lastName: res.data.lastName,
+            username: res.data.username,
+            password: "********",
+            role: res.data.role,
+          });
+          res.data.role == "ADMIN" ? setIsAdmin(true) : setIsAdmin(false);
+        })
+        .catch((err) => console.log("Error while getting user: " + err));
+      api
+        .get("paysheet/" + id)
+        .then((res) => {
+          setPaysheets(res.data);
+        })
+        .catch((err) =>
+          console.log("Error while getting user's paysheets: " + err)
+        );
+    } else navigate("/error");
   }, []);
 
   return (

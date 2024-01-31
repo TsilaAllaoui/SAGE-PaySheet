@@ -178,7 +178,7 @@ const LoginFormContainer = styled.form`
 `;
 
 export const Login = () => {
-  const { isUserAdmin, setIsUserAdmin } = useContext(RoleContext);
+  const setIsUserAdmin = useContext(RoleContext).setIsUserAdmin;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const errorRef = useRef<HTMLParagraphElement>(null);
@@ -193,7 +193,6 @@ export const Login = () => {
         password,
       })
       .then((res) => {
-        console.log(res.data.user.role);
         setIsUserAdmin(res.data.user.role == "ADMIN");
         localStorage.clear();
         localStorage.setItem("userId", res.data.user.id);
@@ -212,8 +211,8 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    console.log("isUserAdmin: " + isUserAdmin);
-  }, [isUserAdmin]);
+    localStorage.clear();
+  }, []);
 
   return (
     <LoginContainer>

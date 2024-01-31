@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import RoleContext from "../contexts/AdminUser";
 
 const StyledSlider = styled.div<{ $isAdmin: boolean }>`
   background-color: ${(props) => (props.$isAdmin ? "green" : "grey")};
@@ -88,6 +90,8 @@ function UserEdit({
   setUser: (e: userI) => void;
   setIsAdmin: (e: boolean) => void;
 }) {
+  const roleContext = useContext(RoleContext);
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(user.role);
     setUser({
@@ -96,6 +100,10 @@ function UserEdit({
     });
     console.log(isAdmin);
   }, [isAdmin]);
+
+  useEffect(() => {
+    if (!roleContext!.isUserAdmin) navigate("/error");
+  }, []);
 
   return (
     <UserInfo>
