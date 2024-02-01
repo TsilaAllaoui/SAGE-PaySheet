@@ -13,6 +13,7 @@ const LoginContainer = styled.div`
   width: 100vw;
   background-color: #f0f0f0;
   background-image: url("../../images/auth-bg.png");
+  animation: fadeIn 750ms;
 `;
 
 const LoginFormContainer = styled.form`

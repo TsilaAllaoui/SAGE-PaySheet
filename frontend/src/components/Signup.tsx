@@ -20,6 +20,7 @@ const SignupContainer = styled.div`
   width: 100vw;
   background-color: #f0f0f0;
   background-image: url("../../images/auth-bg.png");
+  animation: fadeIn 750ms;
 `;
 
 const SignupFormContainer = styled.form`

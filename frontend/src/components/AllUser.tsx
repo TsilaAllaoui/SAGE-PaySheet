@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from "react";
+import { IoMenu } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { api } from "../api";
+import RoleContext from "../contexts/AdminUser";
+import { StyledContainer } from "../main";
+import { UserSchema } from "../schemas/userSchema";
 import { User } from "../types";
 import ConfirmPopUp from "./ConfirmPopUp";
 import Sidebar from "./Sidebar";
 import UsersList from "./UsersList";
-import { UserSchema } from "../schemas/userSchema";
-import RoleContext from "../contexts/AdminUser";
-import { useNavigate } from "react-router-dom";
 
 export const StyledHeader = styled.h2<{ $scrolled?: boolean }>`
   margin: 0;
@@ -57,24 +59,29 @@ export const StyledHeader = styled.h2<{ $scrolled?: boolean }>`
       font-size: x-large;
     }
 
-    img {
-      margin-left: 50px;
-      width: 40px;
+    @media (width <= 480px) {
+      width: 10%;
+      margin: 0;
+    }
+  }
 
-      @media (width <= 480px) {
-        width: 30px;
-        margin: 0;
-      }
+  img {
+    margin-left: 50px;
+    width: 40px;
 
-      @media (480px <=width <= 768px) {
-        width: 35px;
-        margin: 0;
-      }
+    @media (width <= 480px) {
+      width: 30px;
+      margin: 0;
+    }
 
-      @media (768px <= width <= 1024px) {
-        width: 35px;
-        margin: 0;
-      }
+    @media (480px <=width <= 768px) {
+      width: 35px;
+      margin: 0;
+    }
+
+    @media (768px <= width <= 1024px) {
+      width: 35px;
+      margin: 0;
     }
   }
 
@@ -150,7 +157,7 @@ function Alluser() {
   const [userIndexToDelet, setUserIndexToDelet] = useState(0);
   const [sort, setSort] = useState("A-Z");
   const [toggleButtons, setToggleButtons] = useState(false);
-  const roleContext = useContext(RoleContext);
+  const { setIsUserAdmin } = useContext(RoleContext);
   const navigate = useNavigate();
 
   const deleteUser = (i: number) => {
@@ -170,15 +177,23 @@ function Alluser() {
   };
 
   useEffect(() => {
-    roleContext!.isUserAdmin
-      ? api.get("user").then((res) => {
-          const tmp: User[] = res.data;
-          setUsers([...tmp.sort((a, b) => a.name.localeCompare(b.name))]);
-          setFilteredUsers([
-            ...tmp.sort((a, b) => a.name.localeCompare(b.name)),
-          ]);
-        })
-      : navigate("/error");
+    api
+      .get("user/role/" + localStorage.getItem("userId"))
+      .then((res) => {
+        setIsUserAdmin(res.data == "ADMIN");
+        res.data == "ADMIN"
+          ? api.get("user").then((res) => {
+              const tmp: User[] = res.data;
+              setUsers([...tmp.sort((a, b) => a.name.localeCompare(b.name))]);
+              setFilteredUsers([
+                ...tmp.sort((a, b) => a.name.localeCompare(b.name)),
+              ]);
+            })
+          : navigate("/error");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
@@ -214,17 +229,31 @@ function Alluser() {
   }, [sort]);
 
   return (
-    <>
+    <StyledContainer>
       <StyledHeader>
         <div className="image">
-          <img
-            src="..//paysheet.svg"
-            alt="logo"
-            onClick={() => setToggleButtons((toggleButtons) => !toggleButtons)}
-          />
+          {window.innerWidth <= 480 ? (
+            <IoMenu
+              onClick={() =>
+                setToggleButtons((toggleButtons) => !toggleButtons)
+              }
+            />
+          ) : (
+            <img
+              src="..//paysheet.svg"
+              alt="logo"
+              onClick={() =>
+                setToggleButtons((toggleButtons) => !toggleButtons)
+              }
+            />
+          )}
         </div>
         <span>Tous les utilisateurs</span>
-        <div style={{ width: "30%" }}></div>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          {window.innerWidth <= 480 ? (
+            <img src="..//paysheet.svg" alt="logo" />
+          ) : null}
+        </div>
         <Sidebar
           schema={UserSchema}
           data={filteredUsers}
@@ -249,7 +278,7 @@ function Alluser() {
           callBackValidate={() => deleteUser(userIndexToDelet)}
         />
       ) : null}
-    </>
+    </StyledContainer>
   );
 }
 

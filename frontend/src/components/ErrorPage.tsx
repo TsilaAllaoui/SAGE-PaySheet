@@ -1,7 +1,6 @@
-import styled from "styled-components";
 import { HiOutlineShieldExclamation, HiOutlineX } from "react-icons/hi";
+import styled from "styled-components";
 import { StyledHeader } from "./AllUser";
-import { useNavigate } from "react-router-dom";
 
 const StyledErrorPage = styled.div`
   width: 100%;
@@ -29,7 +28,6 @@ const StyledErrorPage = styled.div`
 `;
 
 function ErrorPage() {
-  const navigate = useNavigate();
   return (
     <>
       <StyledHeader>
@@ -42,7 +40,7 @@ function ErrorPage() {
       <StyledErrorPage>
         Vous ne pouvez pas accéder à cette URL
         <HiOutlineShieldExclamation />
-        <HiOutlineX onClick={() => navigate("/login")} className="cross" />
+        <HiOutlineX className="cross" onClick={() => window.history.back()} />
       </StyledErrorPage>
     </>
   );

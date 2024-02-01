@@ -1,11 +1,12 @@
+import { useContext, useEffect } from "react";
 import { AiOutlinePoweroff } from "react-icons/ai";
+import { FaUser, FaUsers } from "react-icons/fa";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import ExportXlsxButton from "./ExportXlsxButton";
 import styled from "styled-components";
-import RoleContext from "../contexts/AdminUser";
-import { useContext, useEffect } from "react";
 import { api } from "../api";
+import RoleContext from "../contexts/AdminUser";
+import ExportXlsxButton from "./ExportXlsxButton";
 
 const StyledSideBar = styled.div<{ $toggle: boolean }>`
   display: flex;
@@ -166,9 +167,17 @@ function Sidebar({
             })
           }
         >
-          {window.location.pathname.includes("alluser")
-            ? "Compte"
-            : "Liste utilisateurs"}
+          {window.location.pathname.includes("alluser") ? (
+            <>
+              <FaUser />
+              <span>Compte</span>
+            </>
+          ) : (
+            <>
+              <FaUsers />
+              <span>Liste utilisateurs</span>
+            </>
+          )}
         </button>
       ) : null}
       <button onClick={logOut}>

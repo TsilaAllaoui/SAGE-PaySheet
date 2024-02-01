@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { api } from "../api";
 import RoleContext from "../contexts/AdminUser";
+import { StyledContainer } from "../main";
 import { PaysheetSchema } from "../schemas/paysheetSchema";
 import "../styles/keyframes.css";
 import { Paysheet } from "../types";
@@ -14,7 +15,7 @@ import Sidebar from "./Sidebar";
 import UserInfoSummary from "./UserInfoSummary";
 import UserPaysheetList from "./UserPaysheetList";
 
-const StyledContainer = styled.div`
+const StyledModifyUserContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -112,18 +113,23 @@ function ModifyUser() {
   }, []);
 
   return (
-    <>
+    <StyledContainer>
       <StyledHeader>
         <div className="image">
-          <HiOutlineChevronLeft onClick={() => navigate("/alluser")} />
-          <img
-            src="..//paysheet.svg"
-            alt="logo"
-            onClick={() => setToggleButtons((toggleButtons) => !toggleButtons)}
-          />
+          {window.innerWidth <= 480 ? (
+            <HiOutlineChevronLeft onClick={() => navigate("/alluser")} />
+          ) : (
+            <img
+              src="..//paysheet.svg"
+              alt="logo"
+              onClick={() =>
+                setToggleButtons((toggleButtons) => !toggleButtons)
+              }
+            />
+          )}
         </div>
         <span>{user.name + " " + user.lastName}</span>
-        <div style={{ width: "30%" }}></div>
+        <div></div>
         <Sidebar
           schema={PaysheetSchema}
           data={paysheets}
@@ -132,7 +138,7 @@ function ModifyUser() {
           fileName={user.name + "_" + user.lastName + ".xlsx"}
         />
       </StyledHeader>
-      <StyledContainer>
+      <StyledModifyUserContainer>
         <UserInfoSummary
           id={id!}
           user={user}
@@ -163,8 +169,8 @@ function ModifyUser() {
             callBackValidate={() => deletePaysheet(userIndexToDelet)}
           />
         ) : null}
-      </StyledContainer>
-    </>
+      </StyledModifyUserContainer>
+    </StyledContainer>
   );
 }
 
