@@ -19,7 +19,7 @@ const SignupContainer = styled.div`
   height: 100vh;
   width: 100vw;
   background-color: #f0f0f0;
-  background-image: url("../../images/auth-bg.png");
+  background-image: url("/auth-bg.png");
   animation: fadeIn 750ms;
 `;
 
