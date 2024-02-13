@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto, UserDto } from './dto/user.dto';
@@ -130,6 +134,13 @@ export class UserService {
 
   // Create user
   async createUser(userDto: UserDto) {
+    if (
+      userDto.username.toLowerCase().includes('admin') ||
+      userDto.name.toLowerCase().includes('admin') ||
+      userDto.lastName.toLowerCase().includes('admin')
+    ) {
+      throw new NotAcceptableException("Can't create admin related account");
+    }
     try {
       return await this.prisma.user.create({
         data: {

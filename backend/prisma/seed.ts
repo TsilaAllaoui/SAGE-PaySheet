@@ -26,6 +26,14 @@ async function getRandomUser() {
 // If offline, use this
 const users = [
   {
+    id: '77eb2d61-c54b-408f-a4a2-e3d19a74d7ea',
+    name: 'Admin',
+    lastName: 'Admin',
+    username: 'admin',
+    password: '$2b$10$JuW8UOSABh0vjPKjl7X.tuSFFyQuIIEVva9WCWllyMNuXzAYjmRIS',
+    role: 'ADMIN',
+  },
+  {
     id: '90eb2d81-b45c-408e-a3a2-e3d19a74d7ea',
     name: 'Dragan',
     lastName: 'Rašić',
@@ -235,9 +243,16 @@ async function generateRandomUsersWithPaysheets() {
     // const randomUser = await getRandomUser();  // If using online api
     const randomUser = users[i];
     const paysheet = {
-      baseSalary: Math.floor(Math.random() * 100000) + 50000,
+      baseSalary:
+        randomUser.username == 'admin'
+          ? 0
+          : Math.floor(Math.random() * 100000) + 50000,
       advanceOnSalary:
-        Math.random() > 0.5 ? Math.floor(Math.random() * 5000) : 0,
+        randomUser.username == 'admin'
+          ? 0
+          : Math.random() > 0.5
+            ? Math.floor(Math.random() * 5000)
+            : 0,
       date: new Date().toISOString(),
     };
 
@@ -245,14 +260,23 @@ async function generateRandomUsersWithPaysheets() {
       data: {
         name: randomUser.name,
         lastName: randomUser.lastName,
-        username: (randomUser.name + ' ' + randomUser.lastName).replaceAll(
-          ' ',
-          '_',
-        ),
+        username:
+          randomUser.username == 'admin'
+            ? 'admin'
+            : (randomUser.name + ' ' + randomUser.lastName).replaceAll(
+                ' ',
+                '_',
+              ),
         password: await bcrypt.hash(
-          (randomUser.name + ' ' + randomUser.lastName).replaceAll(' ', '_'),
+          randomUser.username == 'admin'
+            ? 'admin'
+            : (randomUser.name + ' ' + randomUser.lastName).replaceAll(
+                ' ',
+                '_',
+              ),
           saltOrRounds,
         ),
+        role: randomUser.username == 'admin' ? 'ADMIN' : 'USER',
       },
     });
 

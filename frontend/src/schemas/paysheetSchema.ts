@@ -7,7 +7,6 @@ export const PaysheetSchema = [
     value: (paysheet: Paysheet) => paysheet.baseSalary,
     align: "center",
     alignVertical: "center",
-    backgroundColor: "#00ff00",
     borderStyle: "thick",
     width: "25",
   },
@@ -17,8 +16,6 @@ export const PaysheetSchema = [
     value: (paysheet: Paysheet) => paysheet.advanceOnSalary,
     align: "center",
     alignVertical: "center",
-    backgroundColor: "#00ff00",
-    borderStyle: "thick",
     width: "25",
   },
   {
@@ -28,8 +25,6 @@ export const PaysheetSchema = [
       paysheet.baseSalary - paysheet.advanceOnSalary,
     align: "center",
     alignVertical: "center",
-    backgroundColor: "#00ff00",
-    borderStyle: "thick",
     width: "25",
   },
   {
@@ -39,8 +34,6 @@ export const PaysheetSchema = [
     value: (paysheet: Paysheet) => new Date(paysheet.date),
     align: "center",
     alignVertical: "center",
-    backgroundColor: "#00ff00",
-    borderStyle: "thick",
     width: "25",
   },
 ];
